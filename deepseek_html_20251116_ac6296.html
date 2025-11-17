@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GATE 2026 Preparation Planner</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            flex: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .download-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .download-btn:hover {
+            background: #0da271;
+        }
+
+        .countdown-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .countdown-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--danger);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: var(--dark);
+        }
+
+        .task-list {
+            list-style: none;
+            min-height: 50px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background-color 0.2s;
+        }
+
+        .task-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-checkbox {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            accent-color: var(--success);
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        .task-completed {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: 10px;
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .add-task {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .task-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .task-input:focus {
+            border-color: var(--primary);
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .add-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            text-align: center;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .progress-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .progress-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .progress-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--gray);
+            padding: 20px;
+            font-style: italic;
+        }
+
+        .priority-high {
+            border-left: 4px solid var(--danger);
+        }
+
+        .priority-medium {
+            border-left: 4px solid var(--accent);
+        }
+
+        .priority-low {
+            border-left: 4px solid var(--success);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .countdown {
+                font-size: 2rem;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .task-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-graduation-cap"></i> GATE 2026 Preparation Planner</h1>
+                <p>Your daily companion for structured GATE preparation</p>
+            </div>
+            <button class="download-btn" id="downloadBtn">
+                <i class="fas fa-download"></i> Save Planner
+            </button>
+        </div>
+
+        <div class="countdown-container">
+            <div class="countdown-title">Days Until GATE 2026</div>
+            <div class="countdown" id="countdown">Loading...</div>
+        </div>
+
+        <div class="dashboard">
+            <!-- Today's Tasks -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--success);">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <h2 class="card-title">Today's Tasks</h2>
+                </div>
+                <ul class="task-list" id="today-tasks">
+                    <li class="empty-state">No tasks added yet</li>
+                </ul>
+                <div class="add-task">
+                    <input type="text" class="task-input" placeholder="Add new task for today...">
+                    <button class="add-btn">Add</button>
+                </div>
+            </div>
+
+            <!-- Test Plans -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--danger);">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h2 class="card-title">Test Series Plans</h2>
+                </div>
+                <ul class="task-list" id="test-plans">
+                    <li class="empty-state">No test plans added yet</li>
+                </ul>
+                <div class="add-task">
+                    <input type="text" class="task-input" placeholder="Add new test plan...">
+                    <button class="add-btn">Add</button>
+                </div>
+            </div>
+
+            <!-- DPP Plans -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--accent);">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h2 class="card-title">Daily Practice Problems</h2>
+                </div>
+                <ul class="task-list" id="dpp-plans">
+                    <li class="empty-state">No DPP plans added yet</li>
+                </ul>
+                <div class="add-task">
+                    <input type="text" class="task-input" placeholder="Add new DPP...">
+                    <button class="add-btn">Add</button>
+                </div>
+            </div>
+
+            <!-- Revision Plans -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--secondary);">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h2 class="card-title">Revision Plans</h2>
+                </div>
+                <ul class="task-list" id="revision-plans">
+                    <li class="empty-state">No revision plans added yet</li>
+                </ul>
+                <div class="add-task">
+                    <input type="text" class="task-input" placeholder="Add revision topic...">
+                    <button class="add-btn">Add</button>
+                </div>
+            </div>
+
+            <!-- PYQ Planner -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: var(--primary);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h2 class="card-title">PYQ Analysis</h2>
+                </div>
+                <ul class="task-list" id="pyq-plans">
+                    <li class="empty-state">No PYQ plans added yet</li>
+                </ul>
+                <div class="add-task">
+                    <input type="text" class="task-input" placeholder="Add PYQ set...">
+                    <button class="add-btn">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2 class="progress-title">Preparation Progress</h2>
+            <div class="progress-grid">
+                <div class="progress-item">
+                    <div class="progress-number" id="completed-tasks">0</div>
+                    <div class="progress-label">Tasks Completed Today</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-number" id="total-tasks">0</div>
+                    <div class="progress-label">Total Tasks</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-number">0/10</div>
+                    <div class="progress-label">Subjects Covered</div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-number">0%</div>
+                    <div class="progress-label">Overall Progress</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown to GATE 2026 (assuming Feb 1, 2026)
+        function updateCountdown() {
+            const gateDate = new Date('2026-02-01');
+            const now = new Date();
+            const diff = gateDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            document.getElementById('countdown').textContent = `${days} Days`;
+            
+            if (days <= 30) {
+                document.getElementById('countdown').style.color = '#ef4444';
+            } else if (days <= 90) {
+                document.getElementById('countdown').style.color = '#f59e0b';
+            }
+        }
+
+        // Task management
+        function initializeTaskManagement() {
+            const addButtons = document.querySelectorAll('.add-btn');
+            const taskInputs = document.querySelectorAll('.task-input');
+            
+            // Load saved tasks from localStorage
+            loadTasks();
+            
+            // Add event listeners to add buttons
+            addButtons.forEach((button, index) => {
+                button.addEventListener('click', function() {
+                    const input = taskInputs[index];
+                    const taskText = input.value.trim();
+                    
+                    if (taskText) {
+                        const taskList = this.closest('.card').querySelector('.task-list');
+                        
+                        // Remove empty state if it exists
+                        const emptyState = taskList.querySelector('.empty-state');
+                        if (emptyState) {
+                            emptyState.remove();
+                        }
+                        
+                        const newTask = document.createElement('li');
+                        newTask.className = 'task-item priority-medium';
+                        newTask.innerHTML = `
+                            <input type="checkbox" class="task-checkbox">
+                            <span class="task-text">${taskText}</span>
+                            <div class="task-actions">
+                                <button class="delete-btn" title="Delete task">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                        taskList.appendChild(newTask);
+                        input.value = '';
+                        
+                        // Add event listener to new checkbox
+                        newTask.querySelector('.task-checkbox').addEventListener('change', function() {
+                            const taskTextElement = this.nextElementSibling;
+                            if (this.checked) {
+                                taskTextElement.classList.add('task-completed');
+                            } else {
+                                taskTextElement.classList.remove('task-completed');
+                            }
+                            updateProgress();
+                            saveTasks();
+                        });
+                        
+                        // Add event listener to delete button
+                        newTask.querySelector('.delete-btn').addEventListener('click', function() {
+                            const taskItem = this.closest('.task-item');
+                            taskItem.remove();
+                            
+                            // Add empty state if no tasks left
+                            const taskList = this.closest('.task-list');
+                            if (taskList.children.length === 0) {
+                                const emptyState = document.createElement('li');
+                                emptyState.className = 'empty-state';
+                                emptyState.textContent = 'No tasks added yet';
+                                taskList.appendChild(emptyState);
+                            }
+                            
+                            updateProgress();
+                            saveTasks();
+                        });
+                        
+                        updateProgress();
+                        saveTasks();
+                    }
+                });
+            });
+            
+            // Allow adding tasks with Enter key
+            taskInputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        this.nextElementSibling.click();
+                    }
+                });
+            });
+            
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('.task-checkbox');
+            const completedCheckboxes = document.querySelectorAll('.task-checkbox:checked');
+            
+            document.getElementById('completed-tasks').textContent = completedCheckboxes.length;
+            document.getElementById('total-tasks').textContent = allCheckboxes.length;
+        }
+
+        function saveTasks() {
+            const tasks = {};
+            document.querySelectorAll('.card').forEach(card => {
+                const title = card.querySelector('.card-title').textContent;
+                const taskItems = card.querySelectorAll('.task-item');
+                const taskData = [];
+                
+                taskItems.forEach(item => {
+                    if (!item.classList.contains('empty-state')) {
+                        taskData.push({
+                            text: item.querySelector('.task-text').textContent,
+                            completed: item.querySelector('.task-checkbox').checked
+                        });
+                    }
+                });
+                
+                tasks[title] = taskData;
+            });
+            
+            localStorage.setItem('gatePlannerTasks', JSON.stringify(tasks));
+        }
+
+        function loadTasks() {
+            const savedTasks = localStorage.getItem('gatePlannerTasks');
+            if (savedTasks) {
+                const tasks = JSON.parse(savedTasks);
+                
+                document.querySelectorAll('.card').forEach(card => {
+                    const title = card.querySelector('.card-title').textContent;
+                    if (tasks[title] && tasks[title].length > 0) {
+                        const taskList = card.querySelector('.task-list');
+                        taskList.innerHTML = '';
+                        
+                        tasks[title].forEach(task => {
+                            const priority = task.completed ? 'priority-low' : 'priority-medium';
+                            const completedClass = task.completed ? 'task-completed' : '';
+                            
+                            const taskItem = document.createElement('li');
+                            taskItem.className = `task-item ${priority}`;
+                            taskItem.innerHTML = `
+                                <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''}>
+                                <span class="task-text ${completedClass}">${task.text}</span>
+                                <div class="task-actions">
+                                    <button class="delete-btn" title="Delete task">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            `;
+                            taskList.appendChild(taskItem);
+                        });
+                    }
+                });
+            }
+            
+            // Add event listeners to all existing checkboxes and delete buttons
+            document.querySelectorAll('.task-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskText = this.nextElementSibling;
+                    if (this.checked) {
+                        taskText.classList.add('task-completed');
+                    } else {
+                        taskText.classList.remove('task-completed');
+                    }
+                    updateProgress();
+                    saveTasks();
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const taskItem = this.closest('.task-item');
+                    taskItem.remove();
+                    
+                    // Add empty state if no tasks left
+                    const taskList = this.closest('.task-list');
+                    if (taskList.children.length === 0) {
+                        const emptyState = document.createElement('li');
+                        emptyState.className = 'empty-state';
+                        emptyState.textContent = 'No tasks added yet';
+                        taskList.appendChild(emptyState);
+                    }
+                    
+                    updateProgress();
+                    saveTasks();
+                });
+            });
+        }
+
+        // Download functionality
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const element = document.documentElement.outerHTML;
+            const blob = new Blob([element], {type: 'text/html'});
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'GATE-2026-Planner.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Show confirmation
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+            this.style.background = '#10b981';
+            
+            setTimeout(() => {
+                this.innerHTML = originalText;
+                this.style.background = '';
+            }, 2000);
+        });
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            initializeTaskManagement();
+            
+            // Update countdown every minute
+            setInterval(updateCountdown, 60000);
+        });
+    </script>
+</body>
+</html>
